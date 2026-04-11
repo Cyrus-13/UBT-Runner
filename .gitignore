@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Build and Test Output
+out/
+dist/
+build/
+.vscode-test/
+*.tsbuildinfo
+
+# Extension Artifacts
+*.vsix
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Linters
+.eslintcache
+.stylelintcache
+
+# Temporary & Editor Files
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# OS-generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
