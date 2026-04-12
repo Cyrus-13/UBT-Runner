@@ -13,8 +13,8 @@
   "main": "./extension.js",
   "contributes": {
     "commands": [{
-      "command": "ubt-runner.helloWorld",
-      "title": "Hello World"
+      "command": "ubt-runner.RunUBT",
+      "title": "Run UBT"
     }]
   },
   "scripts": {
