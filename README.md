@@ -1,65 +1,44 @@
-# ubt-runner README
+# UBT-Runner
 
-This is the README for your extension "ubt-runner". After writing up a brief description, we recommend including the following sections.
+UBT-Runner is a powerful and lightweight Visual Studio Code extension designed for Unreal Engine developers. It streamlines the process of compiling your Unreal Engine projects directly from the VS Code environment, bypassing the need to have Unreal Editor open or manually configuring complex build scripts.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+* **Quick Compile Button**: A convenient play button in the editor navigation area to trigger builds using your default configuration.
+* **Auto-generated Debug Configurations**: Detects `.uproject` files in your workspace and automatically scaffolds a `launch.json` file populated with targets for Development, Debug, DebugGame, Test, and Shipping configurations.
+* **Dedicated Output Channel**: Monitors the output of `UnrealBuildTool` in real-time inside the `UBT Runner` Output tab.
+* **Native Progress Display**: View compile progress dynamically within native VS Code notifications.
+* **Clean Cancellation**: Cancel running compile tasks smoothly directly from the progress notification.
+* **Post-Build Auto Launch**: Automatically spawn your `.uproject` file if the build finishes successfully (configurable).
+* **Automated File Saving**: Saves all your unsaved workspace files whenever a build is initiated (configurable).
 
-For example if there is an image subfolder under your extension project workspace:
+## Getting Started
 
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+1. **Install the Extension**.
+2. **Open your Unreal Engine project folder** in Visual Studio Code.
+3. Upon first activation, the extension will ask you to **select your Unreal Engine Installation Directory**. Provide the root folder of your UE installation.
+4. Use the automatically generated `.vscode/launch.json` entries to build your game via the Run & Debug panel, or click the **Compile** button in the top right of your open files.
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+This extension contributes the following configurable settings in your `settings.json`:
 
-For example:
+* `ubt-runner.unrealEngineInstallation`: (String) The root installation path of Unreal Engine.
+* `ubt-runner.openProjectAfterBuild`: (Boolean) Automatically open the `.uproject` after a successful build. Defaults to `false`.
+* `ubt-runner.autoSaveBeforeBuild`: (Boolean) Automatically save all open files before executing a build. Defaults to `true`.
+* `ubt-runner.defaultBuildConfiguration`: (String) The default build configuration to use when clicking the compile button (e.g., `Development`, `Shipping`). Defaults to `Development`.
+* `ubt-runner.targetPlatform`: (String) Target platform to build for (`Win64`, `Linux`, `Mac`, etc.). Defaults to `Win64`.
+* `ubt-runner.additionalFlags`: (String) Appends additional arguments to the UnrealBuildTool command (e.g., `-NoUnity -WarningsAsErrors`). Defaults to `""`.
 
-This extension contributes the following settings:
+## Requirements
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
+* **Unreal Engine**: Ensure you have Unreal Engine installed natively.
+* **C++ Workloads**: Required prerequisites to compile engine codes and headers, usually bundled within Visual Studio or appropriate developer tools depending on your platform.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+### 0.0.1
+Initial Beta Release of UBT-Runner.
 
 ---
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+**Happy coding and building!**
