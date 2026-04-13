@@ -25,4 +25,5 @@ UBT-Runner is a powerful and lightweight Visual Studio Code extension designed f
 * **C++ Workloads**: Required prerequisites to compile engine codes and headers, usually bundled within Visual Studio or appropriate developer tools depending on your platform.
 
 ## Credits
+- [AldertLake](https://github.com/AldertLake)
 - [Cyrus](https://github.com/Cyrus-13)
