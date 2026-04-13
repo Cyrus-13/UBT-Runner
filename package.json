@@ -16,10 +16,6 @@
   "contributes": {
     "commands": [
       {
-        "command": "ubt-runner.RunUBT",
-        "title": "Run UBT"
-      },
-      {
         "command": "ubt-runner.TestRun",
         "title": "Compile",
         "icon": "$(play)"
