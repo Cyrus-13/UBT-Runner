@@ -53,13 +53,26 @@
         },
         "ubt-runner.defaultBuildConfiguration": {
           "type": "string",
-          "enum": ["Debug", "DebugGame", "Development", "Test", "Shipping"],
+          "enum": [
+            "Debug",
+            "DebugGame",
+            "Development",
+            "Test",
+            "Shipping"
+          ],
           "default": "Development",
           "description": "The default build configuration used by the Compile button."
         },
         "ubt-runner.targetPlatform": {
           "type": "string",
-          "enum": ["Win64", "Win32", "Linux", "Mac", "Android", "IOS"],
+          "enum": [
+            "Win64",
+            "Win32",
+            "Linux",
+            "Mac",
+            "Android",
+            "IOS"
+          ],
           "enumDescriptions": [
             "Windows 64-bit (recommended)",
             "Windows 32-bit (legacy)",
