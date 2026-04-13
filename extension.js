@@ -1,7 +1,7 @@
 const vscode = require('vscode');
 const path = require('path');
 const fs = require('fs');
-const { GetUnrealProjectName, GetUnrealBuildToolLocation } = require('./utils');
+const { GetUnrealProjectName, GetUnrealBuildToolLocation, GetTargetPlatform, GetAdditionalFlags } = require('./utils');
 
 // All supported build configurations — single source of truth
 const UBT_CONFIGS = ['Development', 'DebugGame', 'Debug', 'Test', 'Shipping'];
