@@ -88,7 +88,7 @@ async function BuildUnrealProject(buildConfig) {
 	}
 
 	// Get project context
-	const projectInfo = await GetUnrealProjectName();
+	const projectInfo = GetUnrealProjectName();
 	if (!projectInfo.success) {
 		return; // Handled in GetUnrealProjectName
 	}

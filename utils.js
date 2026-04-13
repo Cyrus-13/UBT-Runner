@@ -1,21 +1,46 @@
 const vscode = require('vscode');
 const path = require('path');
+const fs = require('fs');
 
-async function GetUnrealProjectName() {
+function GetUnrealProjectName() {
     if (!vscode.workspace.workspaceFolders?.length) {
         return { success: false };
     }
 
-    const files = await vscode.workspace.findFiles('**/*.uproject', null, 1);
-    if (files.length === 0) {
+    const rootPath = vscode.workspace.workspaceFolders[0].uri.fsPath;
+
+    function findUProjectSync(dir) {
+        const files = fs.readdirSync(dir, { withFileTypes: true });
+        for (const file of files) {
+            if (file.isDirectory()) {
+                if (['Intermediate', 'Binaries', 'Saved', 'DerivedDataCache', '.git', 'Plugins'].includes(file.name)) continue;
+                const result = findUProjectSync(path.join(dir, file.name));
+                if (result) return result;
+            } else if (file.name.endsWith('.uproject')) {
+                return path.join(dir, file.name);
+            }
+        }
+        return null;
+    }
+
+    const uprojectFile = findUProjectSync(rootPath);
+    if (!uprojectFile) {
         return { success: false };
     }
 
+    const rawProjectName = path.basename(uprojectFile, '.uproject');
+    const targetType = vscode.workspace.getConfiguration('ubt-runner').get('targetType') || 'Editor';
+
+    let finalProjectName = rawProjectName;
+    if (targetType === 'Editor') finalProjectName += 'Editor';
+    else if (targetType === 'Client') finalProjectName += 'Client';
+    else if (targetType === 'Server') finalProjectName += 'Server';
+
     return {
         success: true,
-        name: path.basename(files[0].fsPath, '.uproject'),
-        fsPath: files[0].fsPath, // Full path to the .uproject file
-        projectPath: path.dirname(files[0].fsPath) // Path to the directory containing it
+        name: finalProjectName,
+        fsPath: uprojectFile, // Full path to the .uproject file
+        projectPath: path.dirname(uprojectFile) // Path to the directory containing it
     };
 }
 
