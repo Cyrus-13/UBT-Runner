@@ -35,10 +35,5 @@ This extension contributes the following configurable settings in your `settings
 * **Unreal Engine**: Ensure you have Unreal Engine installed natively.
 * **C++ Workloads**: Required prerequisites to compile engine codes and headers, usually bundled within Visual Studio or appropriate developer tools depending on your platform.
 
-## Release Notes
-
-### 0.0.1
-Initial Beta Release of UBT-Runner.
-
----
-
+## Credits
+- [Cyrus](https://github.com/Cyrus-13)
