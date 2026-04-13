@@ -45,6 +45,31 @@
           "type": "boolean",
           "default": false,
           "description": "Automaticaly load project after build ends."
+        },
+        "ubt-runner.defaultBuildConfiguration": {
+          "type": "string",
+          "enum": ["Debug", "DebugGame", "Development", "Test", "Shipping"],
+          "default": "Development",
+          "description": "The default build configuration used by the Compile button."
+        },
+        "ubt-runner.targetPlatform": {
+          "type": "string",
+          "enum": ["Win64", "Win32", "Linux", "Mac", "Android", "IOS"],
+          "enumDescriptions": [
+            "Windows 64-bit (recommended)",
+            "Windows 32-bit (legacy)",
+            "Linux",
+            "macOS",
+            "Android",
+            "iOS"
+          ],
+          "default": "Win64",
+          "description": "The target platform to build for."
+        },
+        "ubt-runner.additionalFlags": {
+          "type": "string",
+          "default": "",
+          "description": "Additional flags to append to the UBT build command (e.g. -NoUnity -WarningsAsErrors)."
         }
       }
     },
@@ -52,7 +77,21 @@
       {
         "type": "ubt-runner",
         "label": "UBT Runner",
-        "providesDynamicConfigurations": true,
+        "languages": [
+          "cpp"
+        ],
+        "configurationSnippets": [
+          {
+            "label": "UBT Runner: Development",
+            "description": "Build Unreal project in Development configuration.",
+            "body": {
+              "name": "UBT: Development",
+              "type": "ubt-runner",
+              "request": "launch",
+              "buildConfiguration": "Development"
+            }
+          }
+        ],
         "configurationAttributes": {
           "launch": {
             "required": [
@@ -69,7 +108,7 @@
                   "Shipping"
                 ],
                 "default": "Development",
-                "description": "Selected Build Configuration."
+                "description": "The Unreal Engine build configuration to use."
               }
             }
           }
