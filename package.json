@@ -9,15 +9,45 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./extension.js",
   "contributes": {
     "commands": [
       {
         "command": "ubt-runner.RunUBT",
         "title": "Run UBT"
+      },
+      {
+        "command": "ubt-runner.TestRun",
+        "title": "Compile",
+        "icon": "$(play)"
       }
-    ]
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "ubt-runner.TestRun",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "UBT Runner",
+      "properties": {
+        "ubt-runner.unrealEngineInstallation": {
+          "type": "string",
+          "default": "",
+          "description": "The installation path of Unreal Engine."
+        },
+        "ubt-runner.openProjectAfterBuild": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automaticaly load project after build ends."
+        }
+      }
+    }
   },
   "scripts": {
     "lint": "eslint .",

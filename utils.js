@@ -21,6 +21,19 @@ async function GetUnrealProjectName() {
     }
 }
 
+function GetUnrealBuildToolLocation() {
+    const config = vscode.workspace.getConfiguration('ubt-runner');
+    const uePath = config.get('unrealEngineInstallation');
+
+    if (uePath) {
+        return path.join(uePath, 'Engine', 'Binaries', 'DotNET', 'UnrealBuildTool', 'UnrealBuildTool.exe');
+    }
+
+    return null;
+}
+
+
+
 module.exports = {
     GetUnrealProjectName
 };

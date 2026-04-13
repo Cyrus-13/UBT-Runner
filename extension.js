@@ -16,7 +16,33 @@ const { GetUnrealProjectName } = require('./utils');
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
-	console.log('Congratulations, your extension "ubt-runner" is now active!');
+
+	// Check if Unreal Engine Installation is set
+	const config = vscode.workspace.getConfiguration('ubt-runner');
+	const uePath = config.get('unrealEngineInstallation');
+
+	if (!uePath || uePath.trim() === '') {
+		vscode.window.showOpenDialog({
+			canSelectFiles: false,
+			canSelectFolders: true,
+			canSelectMany: false,
+			openLabel: 'Select UE Installation',
+			title: 'Select Unreal Engine Installation Folder'
+		}).then(uri => {
+			if (uri && uri[0]) {
+				config.update('unrealEngineInstallation', uri[0].fsPath, vscode.ConfigurationTarget.Global);
+				vscode.window.showInformationMessage(`Unreal Engine installation path saved!`);
+			}
+		});
+	}
+
+
+
+
+
+
+
+
 
 	// The command has been defined in the package.json file
 	const disposable = vscode.commands.registerCommand('ubt-runner.RunUBT', async function () {
@@ -24,7 +50,7 @@ function activate(context) {
 
 		//wlkin 9bal mt ruunna lcommand hy5ssni n geti user UBT location
 		//(hnst3ml user input f bdya wlkin n9d nrdha ka dedicta automatcly mnb3d)
-		let finalCommand ='';
+		let finalCommand = '';
 		const userPaths = await getFiles();
 		if (userPaths) {
 			const ubt = userPaths.ubtLocation;
@@ -71,25 +97,31 @@ function activate(context) {
 		}
 
 		const terminal = vscode.window.createTerminal("UBT Runner");
-        terminal.show();
-        terminal.sendText(finalCommand);
+		terminal.show();
+		terminal.sendText(finalCommand);
 
 	});
 
+	const testRunDisposable = vscode.commands.registerCommand('ubt-runner.TestRun', function () {
+		BuildUnrealProject();
+	});
 
-
-
-	context.subscriptions.push(disposable);
+	context.subscriptions.push(disposable, testRunDisposable);
 
 
 }
 
 
 
+function BuildUnrealProject() {
+	vscode.window.showInformationMessage('This is a test message from the Compile button!');
+}
+
 // This method is called when your extension is deactivated
 function deactivate() { }
 
 module.exports = {
 	activate,
-	deactivate
+	deactivate,
+	BuildUnrealProject
 }
