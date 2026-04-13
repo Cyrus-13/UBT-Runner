@@ -14,7 +14,8 @@ async function GetUnrealProjectName() {
     return {
         success: true,
         name: path.basename(files[0].fsPath, '.uproject'),
-        fsPath: files[0].fsPath
+        fsPath: files[0].fsPath, // Full path to the .uproject file
+        projectPath: path.dirname(files[0].fsPath) // Path to the directory containing it
     };
 }
 

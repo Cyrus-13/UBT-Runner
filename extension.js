@@ -1,6 +1,7 @@
 const vscode = require('vscode');
 const path = require('path');
 const fs = require('fs');
+const { exec } = require('child_process');
 const { GetUnrealProjectName, GetUnrealBuildToolLocation, GetTargetPlatform, GetAdditionalFlags } = require('./utils');
 
 // All supported build configurations — single source of truth
@@ -106,9 +107,102 @@ async function promptForFiles() {
 
 
 //build project
-function BuildUnrealProject(buildConfig) {
+async function BuildUnrealProject(buildConfig) {
 	const config = buildConfig || 'Development';
 	vscode.window.showInformationMessage(`Building Unreal Project [${config}]`);
+
+	// Auto-save files if enabled
+	const shouldAutoSave = vscode.workspace.getConfiguration('ubt-runner').get('autoSaveBeforeBuild');
+	if (shouldAutoSave) {
+		await vscode.workspace.saveAll();
+	}
+
+	// Get UBT path
+	const ubtPath = GetUnrealBuildToolLocation();
+	if (!ubtPath) {
+		vscode.window.showErrorMessage('Unreal Engine installation path is not set.');
+		return;
+	}
+
+	// Get project context
+	const projectInfo = await GetUnrealProjectName();
+	if (!projectInfo.success) {
+		return; // Handled in GetUnrealProjectName
+	}
+
+	const projectName = projectInfo.name;
+	const projectPath = projectInfo.fsPath;
+	const platform = GetTargetPlatform();
+	const flags = GetAdditionalFlags();
+
+	// Get UBT directory
+	const ubtDir = path.dirname(ubtPath);
+
+	// Construct UBT command
+	const command = `.\\UnrealBuildTool.exe ${projectName} ${platform} ${config} -Project="${projectPath}" ${flags}`.trim();
+
+	// Prepare Output Channel
+	if (!global.ubtOutputChannel) {
+		global.ubtOutputChannel = vscode.window.createOutputChannel("UBT Runner");
+	}
+	const outputChannel = global.ubtOutputChannel;
+	outputChannel.show(true);
+	outputChannel.clear();
+	outputChannel.appendLine(`> Executing: ${command}`);
+	outputChannel.appendLine(`> Working Directory: ${ubtDir}\n`);
+
+	// Start the native VS Code progress toast
+	vscode.window.withProgress({
+		location: vscode.ProgressLocation.Notification,
+		title: `Building [${config}]...`,
+		cancellable: true
+	}, (progress, token) => {
+		return new Promise((resolve) => {
+			// Execute command and pipe output to Output tab
+			const buildProcess = exec(command, { cwd: ubtDir });
+
+			// Handle user clicking the "Cancel" button on the toast
+			token.onCancellationRequested(() => {
+				outputChannel.appendLine(`\n> Cancellation requested by user! Force-killing process tree...`);
+				// Force kill the build process and all its children (MSBuild, cl.exe workers)
+				exec(`taskkill /pid ${buildProcess.pid} /t /f`);
+			});
+
+			buildProcess.stdout.on('data', (data) => {
+				outputChannel.append(data.toString());
+			});
+
+			buildProcess.stderr.on('data', (data) => {
+				outputChannel.append(data.toString());
+			});
+
+			buildProcess.on('close', (code) => {
+				if (token.isCancellationRequested) {
+					outputChannel.appendLine(`> Build cancelled.`);
+					vscode.window.showWarningMessage(`Compile for ${projectName} was cancelled.`);
+					resolve();
+					return;
+				}
+
+				outputChannel.appendLine(`\n> Build finished with exit code ${code}`);
+
+				if (code === 0) {
+					vscode.window.showInformationMessage(`Build successful for ${projectName}!`);
+
+					// Check if user wants to open the project after building
+					const openAfter = vscode.workspace.getConfiguration('ubt-runner').get('openProjectAfterBuild');
+					if (openAfter) {
+						outputChannel.appendLine(`> Launching project: ${projectPath}`);
+						exec(`Start-Process "${projectPath}"`, { shell: 'powershell.exe' });
+					}
+				} else {
+					vscode.window.showErrorMessage(`Build failed with code ${code}. Check the output tab for details.`);
+				}
+
+				resolve(); // This successfully closes the toast
+			});
+		});
+	});
 }
 
 

@@ -46,6 +46,11 @@
           "default": false,
           "description": "Automaticaly load project after build ends."
         },
+        "ubt-runner.autoSaveBeforeBuild": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically save all open files before building the project."
+        },
         "ubt-runner.defaultBuildConfiguration": {
           "type": "string",
           "enum": ["Debug", "DebugGame", "Development", "Test", "Shipping"],
