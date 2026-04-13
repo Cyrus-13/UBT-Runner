@@ -15,7 +15,7 @@
     "url": "https://github.com/Cyrus-13/UBT-Runner"
   },
   "license": "MIT",
-  "icon": "images/icon.png",
+  "icon": "Images/icon.png",
   "main": "./extension.js",
   "contributes": {
     "commands": [
