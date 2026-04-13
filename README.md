@@ -19,26 +19,11 @@ UBT-Runner is a powerful and lightweight Visual Studio Code extension designed f
 3. Upon first activation, the extension will ask you to **select your Unreal Engine Installation Directory**. Provide the root folder of your UE installation.
 4. Use the automatically generated `.vscode/launch.json` entries to build your game via the Run & Debug panel, or click the **Compile** button in the top right of your open files.
 
-## Extension Settings
-
-This extension contributes the following configurable settings in your `settings.json`:
-
-* `ubt-runner.unrealEngineInstallation`: (String) The root installation path of Unreal Engine.
-* `ubt-runner.openProjectAfterBuild`: (Boolean) Automatically open the `.uproject` after a successful build. Defaults to `false`.
-* `ubt-runner.autoSaveBeforeBuild`: (Boolean) Automatically save all open files before executing a build. Defaults to `true`.
-* `ubt-runner.defaultBuildConfiguration`: (String) The default build configuration to use when clicking the compile button (e.g., `Development`, `Shipping`). Defaults to `Development`.
-* `ubt-runner.targetPlatform`: (String) Target platform to build for (`Win64`, `Linux`, `Mac`, etc.). Defaults to `Win64`.
-* `ubt-runner.additionalFlags`: (String) Appends additional arguments to the UnrealBuildTool command (e.g., `-NoUnity -WarningsAsErrors`). Defaults to `""`.
-
 ## Requirements
 
 * **Unreal Engine**: Ensure you have Unreal Engine installed natively.
 * **C++ Workloads**: Required prerequisites to compile engine codes and headers, usually bundled within Visual Studio or appropriate developer tools depending on your platform.
 
-## Release Notes
-
-### 0.0.1
-Initial Beta Release of UBT-Runner.
-
----
-**Happy coding and building!**
+## Credits
+- [AldertLake](https://github.com/AldertLake)
+- [Cyrus](https://github.com/Cyrus-13)
