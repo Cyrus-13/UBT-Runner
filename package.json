@@ -1,8 +1,8 @@
 {
   "name": "ubt-runner",
   "displayName": "UBT-Runner",
-  "description": "",
-  "version": "1.0",
+  "description": "Seamlessly build and launch Unreal Engine projects directly from VS Code.",
+  "version": "1.0.0",
   "engines": {
     "vscode": "^1.107.0"
   },
