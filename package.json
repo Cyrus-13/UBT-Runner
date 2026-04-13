@@ -2,7 +2,7 @@
   "name": "ubt-runner",
   "displayName": "UBT-Runner",
   "description": "Seamlessly build and launch Unreal Engine projects directly from VS Code.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "engines": {
     "vscode": "^1.107.0"
   },
@@ -83,6 +83,17 @@
           ],
           "default": "Win64",
           "description": "The target platform to build for."
+        },
+        "ubt-runner.targetType": {
+          "type": "string",
+          "enum": [
+            "Game",
+            "Editor",
+            "Client",
+            "Server"
+          ],
+          "default": "Editor",
+          "description": "The target type for the project build (Game, Editor, Client, Server)."
         },
         "ubt-runner.additionalFlags": {
           "type": "string",
