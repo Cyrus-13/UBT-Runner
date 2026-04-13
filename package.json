@@ -9,9 +9,13 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [
-    "onStartupFinished"
-  ],
+  "publisher": "Cyrus-13",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cyrus-13/UBT-Runner"
+  },
+  "license": "MIT",
+  "icon": "images/icon.png",
   "main": "./extension.js",
   "contributes": {
     "commands": [
