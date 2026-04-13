@@ -41,4 +41,4 @@ This extension contributes the following configurable settings in your `settings
 Initial Beta Release of UBT-Runner.
 
 ---
-**Happy coding and building!**
+
