@@ -26,7 +26,7 @@ function activate(context) {
 		});
 	}
 
-	// Auto-generate launch.json with UBT configs if an Unreal workspace is open
+	// generate launch.json if ue
 	const workspaceFolders = vscode.workspace.workspaceFolders;
 	if (workspaceFolders && workspaceFolders.length > 0) {
 		vscode.workspace.findFiles('**/*.uproject', null, 1).then(files => {
@@ -36,7 +36,7 @@ function activate(context) {
 		});
 	}
 
-	// Command: Run UBT (legacy manual file picker flow)
+	// tkhrbi9 dialek a zamel
 	const runUBTDisposable = vscode.commands.registerCommand('ubt-runner.RunUBT', async () => {
 		const paths = await promptForFiles();
 		if (!paths) return;
@@ -52,18 +52,17 @@ function activate(context) {
 		terminal.sendText(command);
 	});
 
-	// Command: Compile button (top-right toolbar) — uses the configured default build configuration
+	// compile button
 	const compileDisposable = vscode.commands.registerCommand('ubt-runner.TestRun', () => {
 		const defaultConfig = vscode.workspace.getConfiguration('ubt-runner').get('defaultBuildConfiguration') || 'Development';
 		BuildUnrealProject(defaultConfig);
 	});
 
-	// Debug configuration provider — intercepts Run & Debug launches
+	// debug & run config
 	const debugProvider = {
 		resolveDebugConfiguration(folder, config, token) {
 			const buildConfig = config.buildConfiguration || 'Development';
 			BuildUnrealProject(buildConfig);
-			// Return undefined to abort the actual VS Code debug session
 			return undefined;
 		}
 	};
