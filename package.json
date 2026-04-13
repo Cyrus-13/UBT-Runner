@@ -47,7 +47,35 @@
           "description": "Automaticaly load project after build ends."
         }
       }
-    }
+    },
+    "debuggers": [
+      {
+        "type": "ubt-runner",
+        "label": "UBT Runner",
+        "providesDynamicConfigurations": true,
+        "configurationAttributes": {
+          "launch": {
+            "required": [
+              "buildConfiguration"
+            ],
+            "properties": {
+              "buildConfiguration": {
+                "type": "string",
+                "enum": [
+                  "Debug",
+                  "DebugGame",
+                  "Development",
+                  "Test",
+                  "Shipping"
+                ],
+                "default": "Development",
+                "description": "Selected Build Configuration."
+              }
+            }
+          }
+        }
+      }
+    ]
   },
   "scripts": {
     "lint": "eslint .",

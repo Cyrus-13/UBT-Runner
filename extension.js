@@ -103,8 +103,27 @@ function activate(context) {
 	});
 
 	const testRunDisposable = vscode.commands.registerCommand('ubt-runner.TestRun', function () {
-		BuildUnrealProject();
+		BuildUnrealProject("Development");
 	});
+
+	const provider = {
+		provideDebugConfigurations(folder) {
+			return [
+				{ name: "UBT: Development", type: "ubt-runner", request: "launch", buildConfiguration: "Development" },
+				{ name: "UBT: DebugGame", type: "ubt-runner", request: "launch", buildConfiguration: "DebugGame" },
+				{ name: "UBT: Debug", type: "ubt-runner", request: "launch", buildConfiguration: "Debug" },
+				{ name: "UBT: Test", type: "ubt-runner", request: "launch", buildConfiguration: "Test" },
+				{ name: "UBT: Shipping", type: "ubt-runner", request: "launch", buildConfiguration: "Shipping" }
+			];
+		},
+		resolveDebugConfiguration(folder, config, token) {
+			let buildConfig = config.buildConfiguration || 'Development';
+			BuildUnrealProject(buildConfig);
+			// Return undefined to abort the launch so VS Code doesn't complain about a missing debugger extension
+			return undefined;
+		}
+	};
+	context.subscriptions.push(vscode.debug.registerDebugConfigurationProvider('ubt-runner', provider, vscode.DebugConfigurationProviderTriggerKind ? vscode.DebugConfigurationProviderTriggerKind.Dynamic : undefined));
 
 	context.subscriptions.push(disposable, testRunDisposable);
 
@@ -113,8 +132,8 @@ function activate(context) {
 
 
 
-function BuildUnrealProject() {
-	vscode.window.showInformationMessage('This is a test message from the Compile button!');
+function BuildUnrealProject(buildConfig) {
+	vscode.window.showInformationMessage(`This is a test message from the Compile button! Selected config: ${buildConfig || 'Development'}`);
 }
 
 // This method is called when your extension is deactivated
